@@ -1,0 +1,12 @@
+diff -up ../dwm-6.1-1/config.mk ./config.mk
+--- ../dwm-6.1-1/config.mk	2016-07-15 16:40:11.122931156 +0000
++++ ./config.mk	2016-07-15 16:57:15.252893573 +0000
+@@ -18,7 +18,7 @@ XINERAMAFLAGS = -DXINERAMA
+ FREETYPELIBS = -lfontconfig -lXft
+ FREETYPEINC = /usr/include/freetype2
+ # OpenBSD (uncomment)
+-FREETYPEINC = ${X11INC}/freetype2
++# FREETYPEINC = ${X11INC}/freetype2
+ 
+ # includes and libs
+ INCS = -I${X11INC} -I${FREETYPEINC}

@@ -1,0 +1,65 @@
+diff -up ../dwm-6.1-1/config.def.h ./config.def.h
+--- ../dwm-6.1-1/config.def.h	2016-07-15 17:27:34.082826821 +0000
++++ ./config.def.h	2016-07-15 17:36:48.976139788 +0000
+@@ -41,6 +41,7 @@ static const Layout layouts[] = {
+ 	{ "><>",      NULL },    /* no layout function means floating behavior */
+ 	{ "[M]",      monocle },
+ 	{ "[H]",      htile },
++	{ "[D]",      deck },
+ };
+ 
+ /* key definitions */
+@@ -77,6 +78,7 @@ static Key keys[] = {
+ 	{ MODKEY,                       XK_f,      setlayout,      {.v = &layouts[1]} },
+ 	{ MODKEY,                       XK_m,      setlayout,      {.v = &layouts[2]} },
+ 	{ MODKEY,                       XK_v,      setlayout,      {.v = &layouts[3]} },
++	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[4]} },
+ 	{ MODKEY,                       XK_space,  setlayout,      {0} },
+ 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+ 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
+diff -up ../dwm-6.1-1/dwm.c ./dwm.c
+--- ../dwm-6.1-1/dwm.c	2016-07-15 17:27:34.082826821 +0000
++++ ./dwm.c	2016-07-15 17:30:49.176152994 +0000
+@@ -160,6 +160,7 @@ static void configure(Client *c);
+ static void configurenotify(XEvent *e);
+ static void configurerequest(XEvent *e);
+ static Monitor *createmon(void);
++static void deck(Monitor *m);
+ static void destroynotify(XEvent *e);
+ static void detach(Client *c);
+ static void detachstack(Client *c);
+@@ -692,6 +693,34 @@ createmon(void)
+ }
+ 
+ void
++deck(Monitor *m) {
++	int dn;
++	unsigned int i, n, h, mw, my;
++	Client *c;
++
++	for(n = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), n++);
++	if(n == 0)
++		return;
++
++	dn = n - m->nmaster;
++	if(dn > 0) /* override layout symbol */
++		snprintf(m->ltsymbol, sizeof m->ltsymbol, "D %d", dn);
++
++	if(n > m->nmaster)
++		mw = m->nmaster ? m->ww * m->mfact : 0;
++	else
++		mw = m->ww;
++	for(i = my = 0, c = nexttiled(m->clients); c; c = nexttiled(c->next), i++)
++		if(i < m->nmaster) {
++			h = (m->wh - my) / (MIN(n, m->nmaster) - i);
++			resize(c, m->wx, m->wy + my, mw - (2*c->bw), h - (2*c->bw), False);
++			my += HEIGHT(c);
++		}
++		else
++			resize(c, m->wx + mw, m->wy, m->ww - mw - (2*c->bw), m->wh - (2*c->bw), False);
++}
++
++void
+ destroynotify(XEvent *e)
+ {
+ 	Client *c;
