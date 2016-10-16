@@ -7,6 +7,9 @@ static const char *fonts[] = {
 	"fixed-medium:size=10"
 };
 static const char dmenufont[]       = "terminus:size=10";
+
+/* yotsugi theme */
+/*
 // static const char normbordercolor[] = "#747474";
 static const char normbordercolor[] = "#2d2d2d";
 // static const char normbgcolor[]     = "#e59269"; // yotsugi light orange
@@ -20,6 +23,16 @@ static const char selbordercolor[]  = "#ba3c58"; // yotsugi pink
 static const char selbgcolor[]      = "#2a606a"; 
 // static const char selfgcolor[]      = "#eeeeee";
 static const char selfgcolor[]      = "#ffffff";
+*/
+
+/* dark theme */
+static const char normbordercolor[] = "#101010";
+static const char selbordercolor[]  = "#454545";
+static const char normbgcolor[]     = "#212121";
+static const char selbgcolor[]      = "#454545";
+static const char normfgcolor[]     = "#bcbcbc";
+static const char selfgcolor[]      = "#d7d7d7";
+
 static const unsigned int borderpx  = 4;        /* border pixel of windows */
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int gappx     = 10;        /* gap pixel between windows */  
